@@ -31,7 +31,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: ":checkered_flag: This change includes a new feature flag `prediction/predictionSource`:\nhttps://github.com/predictab-le/apps/blob/fb235529cbd832ffcf4f4a22acd7b88de5894dcf/services/predictd/main.go#L21\nThis flag needs to be defined in Flipt first.\nPlease create the flag in [your repository](https://github.com/predictab-le/config)."
+              body: ":checkered_flag: This change includes a new feature flag `prediction/predictionSource`:\nhttps://github.com/predictab-le/apps/blob/5c7b0481bdcc88dadc8316d26c9e234f18e3c030/services/predictd/main.go#L20-L26\nThis flag needs to be defined in Flipt first.\nPlease create the flag in [your repository](https://github.com/predictab-le/config)."
             });
 
             core.setFailed("Feature flag `prediction/predictionSource` not found.");
