@@ -18,14 +18,10 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const message = `A new feature flag has been referenced (`predictionSource`), which does not yet exist in Flipt:
-                https://github.com/predictab-le/apps/blob/fb235529cbd832ffcf4f4a22acd7b88de5894dcf/services/predictd/main.go#L21
-                Please create the flag in [your repository](https://github.com/predictab-le/config) before continuing.`;
-
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: message 
+              body: "A new feature flag has been referenced (`predictionSource`), which does not yet exist in Flipt:\nhttps://github.com/predictab-le/apps/blob/fb235529cbd832ffcf4f4a22acd7b88de5894dcf/services/predictd/main.go#L21\nPlease create the flag in [your repository](https://github.com/predictab-le/config) before continuing."
             })
  
