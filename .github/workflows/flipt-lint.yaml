@@ -1,0 +1,27 @@
+name: Flipt
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lint
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "A new feature flag has been referenced (`predictionSource`), which does not yet exist in Flipt:\nhttps://github.com/predictab-le/apps/blob/fb235529cbd832ffcf4f4a22acd7b88de5894dcf/services/predictd/main.go#L21"
+            })
+ 
