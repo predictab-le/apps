@@ -35,11 +35,13 @@ jobs:
               description: "Your application has been deployed to a preview environment.\nFlipt has also been deployed and is tracking the [preview/deployment-abcdefg](https://github.com/predictab-le/config/tree/preview/deployment-abcdefg) branch."
             });
 
-            await github.rest.repos.createDeploymentStatus({
+            const status = await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
               deployment_id: deployment.data.id,
               state: "success",
               target_url: "https://preview-predictd-abcdefg.predictab.le",
             });
+
+            console.log(status);
  
