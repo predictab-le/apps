@@ -33,7 +33,9 @@ jobs:
               repo: context.repo.repo,
               ref: context.payload.pull_request.head.ref,
               description: "Your application has been deployed to a preview environment.\nFlipt has also been deployed and is tracking the [preview/deployment-abcdefg](https://github.com/predictab-le/config/tree/preview/deployment-abcdefg) branch.",
+              environment: "preview",
               transient_environment: true,
+              required_contexts: ["Flag Check"],
             });
 
             const status = await github.rest.repos.createDeploymentStatus({
