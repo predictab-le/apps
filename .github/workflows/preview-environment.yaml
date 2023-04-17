@@ -26,6 +26,8 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            console.log("ref", context.ref);
+
             const deployment = await github.rest.repos.createDeployment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -34,6 +36,8 @@ jobs:
               environment: "preview",
               description: "Your application has been deployed to a preview environment.\nFlipt has also been deployed and is tracking the [preview/deployment-abcdefg](https://github.com/predictab-le/config/tree/preview/deployment-abcdefg) branch."
             });
+
+            console.log(deployment);
 
             await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
