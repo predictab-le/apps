@@ -27,7 +27,7 @@ jobs:
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
-            console.log(context.pull_request.head);
+            console.log(context.payload.pull_request.head);
             const deployment = await github.rest.repos.createDeployment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
