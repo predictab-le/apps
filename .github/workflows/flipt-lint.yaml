@@ -20,7 +20,13 @@ jobs:
           installation_id: ${{ secrets.FLIPT_BOT_INSTALLATION_ID }}
 
       - uses: actions/checkout@v3
-      - uses: flipt-io/ffs-action@main
+
+      - uses: actions/checkout@v3
+        with:
+          repository: flipt-io/ffs-action
+          path: ./ffs-action
+
+      - uses: ./ffs-action
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           flipt-url: "https://try.flipt.io/"
