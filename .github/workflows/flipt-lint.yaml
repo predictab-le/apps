@@ -24,4 +24,4 @@ jobs:
       - uses: flipt-io/ffs-action@main
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
-          flipt-url: "https://try.flipt.io/"
+          flipt-url: "https://bea7-81-105-194-215.ngrok-free.app"
