@@ -44,13 +44,11 @@ jobs:
         run: cargo build
         working-directory: ./ffs
 
-      - name: LS Build Path
-        run: ls "$PWD/ffs/target/debug"
-
       - name: Update Path
         run: echo "$PWD/ffs/target/debug" >> $GITHUB_PATH
 
-      - run: cd ./apps
+      - name: Set Workspace
+        run: echo "GITHUB_WORKSPACE=$PWD/apps" >> $GITHUB_ENV
 
       - uses: flipt-io/ffs-action@main
         with:
