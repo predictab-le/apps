@@ -28,6 +28,16 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           ref: gm/fix-go-rule-flag-key-match
 
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            /ffs/target/
+          key: ${{ runner.os }}-cargo-${{ hashfiles('/ffs/Cargo.lock') }}
+
       - name: Build FFS
         run: cargo build
         working-directory: /ffs
