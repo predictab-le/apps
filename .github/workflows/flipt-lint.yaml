@@ -45,10 +45,10 @@ jobs:
         working-directory: ./ffs
 
       - name: LS Build Path
-        run: ls "{path}/ffs/target/debug"
+        run: ls "$PWD/ffs/target/debug"
 
       - name: Update Path
-        run: echo "{path}/ffs/target/debug" >> $GITHUB_PATH
+        run: echo "$PWD/ffs/target/debug" >> $GITHUB_PATH
 
       - run: cd ./apps
 
