@@ -20,8 +20,6 @@ jobs:
           installation_id: ${{ secrets.FLIPT_BOT_FFS_INSTALLATION_ID }}
 
       - uses: actions/checkout@v3
-        with:
-          path: ./apps
 
       - uses: actions/checkout@v3
         with:
@@ -37,18 +35,18 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            ffs/target/
-          key: ${{ runner.os }}-cargo-${{ hashfiles('/ffs/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashfiles('./Cargo.lock') }}
 
       - name: Build FFS
         run: cargo build
         working-directory: ./ffs
 
-      - name: Update Path
-        run: echo "$PWD/ffs/target/debug" >> $GITHUB_PATH
-
-      - name: Set Workspace
-        run: echo "GITHUB_WORKSPACE=$PWD/apps" >> $GITHUB_ENV
+      - name: Prepare FFS
+        run: |
+          cp ./ffs/target/debug/ffs .
+          cp ./ffs/Cargo.lock .
+          rm -rf ./ffs/
+          echo "$PWD" >> $GITHUB_PATH
 
       - uses: flipt-io/ffs-action@main
         with:
