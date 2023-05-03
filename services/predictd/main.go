@@ -13,7 +13,7 @@ func main() {
 	var (
 		features = sdk.New(nil).Flipt()
 		db       *sql.DB
-		openAI   *http.Client
+		closedAI *http.Client
 	)
 
 	http.HandleFunc("/predict", func(w http.ResponseWriter, r *http.Request) {
@@ -33,8 +33,8 @@ func main() {
 		switch resp.Value {
 		case "fromDB":
 			prediction, err = predictionFromDB(db)
-		case "fromOpenAI":
-			prediction, err = predictionFromOpenAI(openAI)
+		case "fromClosedAI":
+			prediction, err = predictionFromClosedAI(closedAI)
 		default:
 			http.Error(w, "something went wrong", http.StatusInternalServerError)
 			return
