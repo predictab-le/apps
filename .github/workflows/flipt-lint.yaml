@@ -1,38 +1,27 @@
-name: Flipt
-
+name: "Flipt Lint"
 on:
+  workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-
+    paths-ignore:
+      - "README.md"
 jobs:
-  flag-check:
-    name: Flag Check
+  lint:
     runs-on: ubuntu-latest
-
     steps:
       - name: Generate token
         id: generate_token
         uses: tibdex/github-app-token@v1
         with:
           app_id: ${{ secrets.FLIPT_BOT_APP_ID }}
-          installation_id: ${{ secrets.FLIPT_BOT_INSTALLATION_ID }}
           private_key: ${{ secrets.FLIPT_BOT_PRIVATE_KEY_PEM }}
+          installation_id: ${{ secrets.FLIPT_BOT_FFS_INSTALLATION_ID }}
 
-      - name: Check Flags
-        uses: actions/github-script@v6
+      - uses: actions/checkout@v3
+
+      - uses: flipt-io/ffs-action@main
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: ":checkered_flag: This change includes a new feature flag `prediction/predictionSource`:\nhttps://github.com/predictab-le/apps/blob/5c7b0481bdcc88dadc8316d26c9e234f18e3c030/services/predictd/main.go#L20-L26\nThis flag needs to be defined in Flipt first.\nPlease create the flag in [your repository](https://github.com/predictab-le/config)."
-            });
-
-            core.setFailed("Feature flag `prediction/predictionSource` not found.");
- 
+          flipt-url: "https://bea7-81-105-194-215.ngrok-free.app"

@@ -18,7 +18,8 @@ func main() {
 	go ingestFromActivityPub(ctx, documents)
 
 	resp, err := features.GetFlag(ctx, &flipt.GetFlagRequest{
-		Key: "ingestFromDiscord",
+		NamespaceKey: "ingestor",
+		Key:          "ingestFromDiscord",
 	})
 	if err != nil {
 		log.Fatal(err)
