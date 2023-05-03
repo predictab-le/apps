@@ -1,27 +1,27 @@
-name: Flipt
-
+name: "Flipt Lint"
 on:
+  workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-
+    paths-ignore:
+      - "README.md"
 jobs:
-  flag-check:
-    name: Flag Check
+  lint:
     runs-on: ubuntu-latest
-
     steps:
       - name: Generate token
         id: generate_token
         uses: tibdex/github-app-token@v1
         with:
           app_id: ${{ secrets.FLIPT_BOT_APP_ID }}
-          installation_id: ${{ secrets.FLIPT_BOT_INSTALLATION_ID }}
           private_key: ${{ secrets.FLIPT_BOT_PRIVATE_KEY_PEM }}
+          installation_id: ${{ secrets.FLIPT_BOT_FFS_INSTALLATION_ID }}
 
-      - name: Check Flags
-        run: echo "success"
- 
+      - uses: actions/checkout@v3
+
+      - uses: flipt-io/ffs-action@main
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          flipt-url: "https://bea7-81-105-194-215.ngrok-free.app"
