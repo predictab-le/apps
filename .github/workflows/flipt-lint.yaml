@@ -24,16 +24,19 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: flipt-io/ffs
-          path: ./ffs
+          path: /ffs
           token: ${{ steps.generate_token.outputs.token }}
           ref: gm/fix-go-rule-flag-key-match
 
       - name: Build FFS
         run: cargo build
-        working-directory: ./ffs
+        working-directory: /ffs
+
+      - name: LS Build Path
+        run: ls /ffs/target/debug
 
       - name: Update Path
-        run: echo "{path}/ffs/target/debug" >> $GITHUB_PATH
+        run: echo "/ffs/target/debug" >> $GITHUB_PATH
 
       - uses: flipt-io/ffs-action@main
         with:
