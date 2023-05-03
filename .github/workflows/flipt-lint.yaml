@@ -20,11 +20,13 @@ jobs:
           installation_id: ${{ secrets.FLIPT_BOT_FFS_INSTALLATION_ID }}
 
       - uses: actions/checkout@v3
+        with:
+          path: ./apps
 
       - uses: actions/checkout@v3
         with:
           repository: flipt-io/ffs
-          path: /ffs
+          path: ./ffs
           token: ${{ steps.generate_token.outputs.token }}
           ref: gm/fix-go-rule-flag-key-match
 
@@ -35,18 +37,20 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            /ffs/target/
+            ffs/target/
           key: ${{ runner.os }}-cargo-${{ hashfiles('/ffs/Cargo.lock') }}
 
       - name: Build FFS
         run: cargo build
-        working-directory: /ffs
+        working-directory: ./ffs
 
       - name: LS Build Path
-        run: ls /ffs/target/debug
+        run: ls "{path}/ffs/target/debug"
 
       - name: Update Path
-        run: echo "/ffs/target/debug" >> $GITHUB_PATH
+        run: echo "{path}/ffs/target/debug" >> $GITHUB_PATH
+
+      - run: cd ./apps
 
       - uses: flipt-io/ffs-action@main
         with:
