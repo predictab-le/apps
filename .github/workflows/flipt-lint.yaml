@@ -17,9 +17,10 @@ jobs:
         with:
           app_id: ${{ secrets.FLIPT_BOT_APP_ID }}
           private_key: ${{ secrets.FLIPT_BOT_PRIVATE_KEY_PEM }}
-          installation_id: ${{ secrets.FLIPT_BOT_INSTALLATION_ID }}
+          installation_id: ${{ secrets.FLIPT_BOT_FFS_INSTALLATION_ID }}
 
       - uses: actions/checkout@v3
+
       - uses: flipt-io/ffs-action@main
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
