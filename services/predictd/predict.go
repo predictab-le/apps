@@ -12,7 +12,7 @@ func predictionFromDB(*sql.DB) (Prediction, error) {
 	return Prediction{}, nil
 }
 
-func predictionFromOpenAI(*http.Client) (Prediction, error) {
+func predictionFromClosedAI(*http.Client) (Prediction, error) {
 	return Prediction{}, nil
 }
 
