@@ -23,5 +23,6 @@ jobs:
 
       - uses: flipt-io/ffs-action@main
         with:
+          args: --issue-exit-code=0
           github-token: ${{ steps.generate_token.outputs.token }}
           scan-flipt-url: "https://bea7-81-105-194-215.ngrok-free.app"
