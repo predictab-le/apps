@@ -4,13 +4,42 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+
+	"go.flipt.io/flipt/rpc/flipt"
+	sdk "go.flipt.io/flipt/sdk/go"
 )
 
 func main() {
-	var db *sql.DB
+	var (
+		features = sdk.New(nil).Flipt()
+		db       *sql.DB
+		closedAI *http.Client
+	)
 
 	http.HandleFunc("/predict", func(w http.ResponseWriter, r *http.Request) {
-		prediction, err := predictionFromDB(db)
+		resp, err := features.Evaluate(r.Context(), &flipt.EvaluationRequest{
+			NamespaceKey: "prediction",
+			FlagKey:      "predictionSource",
+			Context: map[string]string{
+				"organization": getOrganization(r.Context()),
+			},
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		var prediction Prediction
+		switch resp.Value {
+		case "fromDB":
+			prediction, err = predictionFromDB(db)
+		case "fromClosedAI":
+			prediction, err = predictionFromClosedAI(closedAI)
+		default:
+			http.Error(w, "something went wrong", http.StatusInternalServerError)
+			return
+		}
+
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
